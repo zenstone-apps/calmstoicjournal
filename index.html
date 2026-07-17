@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Calm Stoic Journal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A few minutes of calm each day — Stoic wisdom, journaling and reflection.">
+  <link rel="icon" type="image/png" href="icon.png">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { min-height: 100%; }
+    body {
+      background: #0f172a;
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #f8fafc; text-align: center; padding: 24px; overflow: hidden;
+    }
+    /* Optional hero photo — drop a licensed image named hero.jpg into the repo.
+       If it's missing, this just stays transparent and the dark bg shows. */
+    .bgphoto {
+      position: fixed; inset: 0; z-index: 0;
+      background: url('hero.jpg') center/cover no-repeat;
+      opacity: 0.30;
+    }
+    .bgphoto::after {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(15,23,42,0.55) 0%, rgba(15,23,42,0.85) 100%);
+    }
+    .card { position: relative; z-index: 1; max-width: 440px; width: 100%; }
+    .app-icon { width: 84px; height: 84px; border-radius: 20px; margin: 0 auto 18px;
+      display: block; box-shadow: 0 8px 24px rgba(0,0,0,0.35); }
+    .eyebrow { color: #c9a86a; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; margin-bottom: 10px; }
+    h1 { font-size: 2.05rem; font-weight: 800; margin-bottom: 14px; letter-spacing: -0.02em; }
+    .desc { color: rgba(248,250,252,0.68); line-height: 1.6; margin-bottom: 26px; font-size: 1rem; }
+    .features { list-style: none; margin: 0 auto 28px; max-width: 360px; text-align: left; }
+    .features li { display: flex; align-items: flex-start; gap: 12px; padding: 9px 0; color: rgba(248,250,252,0.86); font-size: 0.96rem; }
+    .features .dot { color: #c9a86a; font-size: 1.1rem; line-height: 1.3; }
+    .store-btns { margin-bottom: 22px; }
+    .rating { display: inline-flex; align-items: center; gap: 9px;
+      text-decoration: none; color: #f8fafc; padding: 9px 16px; border-radius: 999px;
+      background: rgba(201,168,106,0.10); border: 1px solid rgba(201,168,106,0.35); }
+    .rating .stars { color: #f5b301; letter-spacing: 1px; font-size: 1.05rem; }
+    .rating .stars .dim { color: rgba(245,179,1,0.32); }
+    .rating b { color: #f8fafc; font-size: 1.02rem; }
+    .rating .rlabel { color: rgba(248,250,252,0.6); font-size: 0.86rem; }
+    .store-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 24px;
+      border-radius: 14px; color: #fff; font-weight: 700; text-decoration: none; font-size: 0.98rem;
+      transition: transform 0.12s ease, opacity 0.12s ease; }
+    .btn:active { transform: scale(0.97); opacity: 0.9; }
+    .btn-ios, .btn-android { background: #1c1c1e; border: 1px solid rgba(255,255,255,0.14); }
+    .footer { margin-top: 30px; font-size: 0.78rem; color: rgba(248,250,252,0.34); }
+    .footer a { color: rgba(248,250,252,0.5); text-decoration: none; }
+  </style>
+  <script>
+    var T = {
+      de: { eyebrow: 'Stoische Weisheit jeden Tag', tagline: 'Finde jeden Tag ein paar Minuten Ruhe — mit stoischer Weisheit und Journaling.',
+            f1: 'Jeden Tag ein neuer stoischer Impuls für mehr Gelassenheit',
+            f2: 'Geführtes Journaling, das dir hilft, klarer zu denken',
+            f3: 'Stell Marc Aurel (KI) deine Fragen — rund um die Uhr',
+            rlabel: 'Bewertung' },
+      en: { eyebrow: 'Stoic wisdom, every day', tagline: 'A few minutes of calm each day — with Stoic wisdom and journaling.',
+            f1: 'A new Stoic prompt every day, for more calm',
+            f2: 'Guided journaling that helps you think clearer',
+            f3: 'Ask Marcus Aurelius (AI) anything, anytime',
+            rlabel: 'Rating' },
+      es: { eyebrow: 'Sabiduría estoica cada día', tagline: 'Unos minutos de calma cada día — con sabiduría estoica y diario.',
+            f1: 'Una frase estoica nueva cada día, para más calma',
+            f2: 'Diario guiado que te ayuda a pensar con más claridad',
+            f3: 'Pregúntale a Marco Aurelio (IA) lo que quieras, cuando quieras',
+            rlabel: 'Valoración' },
+      pt: { eyebrow: 'Sabedoria estoica todos os dias', tagline: 'Alguns minutos de calma por dia — com sabedoria estoica e diário.',
+            f1: 'Uma nova frase estoica todos os dias, para mais calma',
+            f2: 'Diário guiado que te ajuda a pensar com mais clareza',
+            f3: 'Pergunte a Marco Aurélio (IA) o que quiser, quando quiser',
+            rlabel: 'Avaliação' },
+      fr: { eyebrow: 'La sagesse stoïcienne au quotidien', tagline: 'Quelques minutes de calme chaque jour — sagesse stoïcienne et journal.',
+            f1: 'Une nouvelle pensée stoïcienne chaque jour, pour plus de calme',
+            f2: 'Un journal guidé qui t\'aide à penser plus clairement',
+            f3: 'Demande ce que tu veux à Marc Aurèle (IA), à tout moment',
+            rlabel: 'Note' },
+      it: { eyebrow: 'Saggezza stoica ogni giorno', tagline: 'Qualche minuto di calma ogni giorno — saggezza stoica e diario.',
+            f1: 'Uno spunto stoico nuovo ogni giorno, per più calma',
+            f2: 'Diario guidato che ti aiuta a pensare con più chiarezza',
+            f3: 'Chiedi a Marco Aurelio (IA) quello che vuoi, quando vuoi',
+            rlabel: 'Valutazione' }
+    };
+    var appleIcon = '<svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>';
+    var playIcon = '<svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M3 20.5v-17c0-.83.94-1.3 1.6-.8l15 8.5c.6.34.6 1.26 0 1.6l-15 8.5c-.66.5-1.6.03-1.6-.8z"/></svg>';
+
+    var IOS_URL = 'https://apps.apple.com/app/id6761347435';
+    var ANDROID_URL = 'https://play.google.com/store/apps/details?id=de.calmstoic.app&utm_source=tiktok&utm_medium=bio&utm_campaign=profil';
+
+    window.onload = function() {
+      var lang = (navigator.language || navigator.userLanguage || 'en').substring(0, 2);
+      var t = T[lang] || T.en;
+      var ua = navigator.userAgent || '';
+      var isIOS = /iphone|ipad|ipod/i.test(ua);
+      var isAndroid = /android/i.test(ua);
+
+      var btns = '<div class="store-btns">' +
+        (!isAndroid ? '<a class="btn btn-ios" href="' + IOS_URL + '">' + appleIcon + ' App Store</a>' : '') +
+        (!isIOS ? '<a class="btn btn-android" href="' + ANDROID_URL + '">' + playIcon + ' Play Store</a>' : '') +
+        '</div>';
+
+      var rating = '<div><a class="rating" href="' + ANDROID_URL + '">' +
+          '<span class="stars">&#9733;&#9733;&#9733;&#9733;<span class="dim">&#9733;</span></span>' +
+          '<b>4,4</b><span class="rlabel">' + t.rlabel + '</span></a></div>';
+
+      document.getElementById('content').innerHTML =
+        '<div class="eyebrow">' + t.eyebrow + '</div>' +
+        '<h1>Calm Stoic Journal</h1>' +
+        '<div class="desc">' + t.tagline + '</div>' +
+        '<ul class="features">' +
+          '<li><span class="dot">&#9670;</span>' + t.f1 + '</li>' +
+          '<li><span class="dot">&#9670;</span>' + t.f2 + '</li>' +
+          '<li><span class="dot">&#9670;</span>' + t.f3 + '</li>' +
+        '</ul>' +
+        btns + rating;
+
+      // On mobile, go straight to the matching store.
+      if (isIOS) { window.location = IOS_URL; }
+      else if (isAndroid) { window.location = ANDROID_URL; }
+    };
+  </script>
+</head>
+<body>
+  <div class="bgphoto"></div>
+  <div class="card">
+    <img src="icon.png" alt="Calm Stoic Journal" class="app-icon">
+    <div id="content"></div>
+  </div>
+</body>
+</html>
