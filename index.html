@@ -106,7 +106,7 @@
         (!isIOS ? '<a class="btn btn-android" href="' + ANDROID_URL + '">' + playIcon + ' Play Store</a>' : '') +
         '</div>';
 
-      var rating = '<div><a class="rating" href="' + ANDROID_URL + '">' +
+      var rating = '<div style="margin-bottom:18px;"><a class="rating" href="' + ANDROID_URL + '">' +
           '<span class="stars">&#9733;&#9733;&#9733;&#9733;<span class="dim">&#9733;</span></span>' +
           '<b>4,4</b><span class="rlabel">' + t.rlabel + '</span></a></div>';
 
@@ -119,7 +119,7 @@
           '<li><span class="dot">&#9670;</span>' + t.f2 + '</li>' +
           '<li><span class="dot">&#9670;</span>' + t.f3 + '</li>' +
         '</ul>' +
-        btns + rating;
+        rating + btns;
 
       // On mobile, go straight to the matching store.
       if (isIOS) { window.location = IOS_URL; }
